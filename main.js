@@ -1,12 +1,12 @@
         // Options 
-        const CLIENT_ID = '933831328912-tgt8teif0p8g53cp1eujf1f0on6133ki.apps.googleusercontent.com';
+        const CLIENT_ID = '704701065656-3o7faurs2f2g54rfhl2h1t856sadl1te.apps.googleusercontent.com';
         const DISCOVERY_DOCS = [
             'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'
         ];
         const SCOPES = "https://www.googleapis.com/auth/youtube.readonly";
 
         const authorizeButton = document.getElementById("authorize-button");
-        const signoutButton = document.getElementById("signout-button");
+        const signOutButton = document.getElementById("signOut-button");
         const content = document.getElementById("content");
         const channelForm = document.getElementById("channel-form");
         const channelInput = document.getElementById("channel-input");
@@ -38,25 +38,25 @@
             })
             .then(() => {
             // Listen for sign in state changes
-            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
             // Handle initial sign in state
-            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+            updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
             authorizeButton.onclick = handleAuthClick;
-            signoutButton.onclick = handleSignoutClick;
+            signOutButton.onclick = handleSignOutClick;
             });
         }
 
         // Update UI sign in state changes
-        function updateSigninStatus(isSignedIn) {
+        function updateSignInStatus(isSignedIn) {
         if (isSignedIn) {
             authorizeButton.style.display = "none";
-            signoutButton.style.display = "block";
+            signOutButton.style.display = "block";
             content.style.display = "block";
             videoContainer.style.display = "block";
             getChannel(defaultChannel);
         } else {
             authorizeButton.style.display = "block";
-            signoutButton.style.display = "none";
+            signOutButton.style.display = "none";
             content.style.display = "none";
             videoContainer.style.display = "none";
         }
@@ -68,7 +68,7 @@
         }
 
         // Handle logout
-        function handleSignoutClick() {
+        function handleSignOutClick() {
         gapi.auth2.getAuthInstance().signOut();
         }
 
@@ -80,7 +80,7 @@
 
         // Get channel from API
         function getChannel(channel) {
-        gapi.client.youtube.channels
+        gapi.client.youTube.channels
             .list({
             part: "snippet,contentDetails,statistics",
             forUsername: channel,
@@ -129,7 +129,7 @@
             maxResults: 10,
         };
 
-        const request = gapi.client.youtube.playlistItems.list(requestOptions);
+        const request = gapi.client.youTube.playlistItems.list(requestOptions);
 
         request.execute((response) => {
             console.log(response);
@@ -143,7 +143,7 @@
 
                 output += `
             <div class="col s3">
-            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
             </div>
             `;
             });
